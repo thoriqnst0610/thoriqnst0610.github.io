@@ -54,12 +54,11 @@
     .date-badge{background:linear-gradient(180deg,#fff, #f7f3ea);border-radius:12px;padding:14px 12px;text-align:center;min-width:110px}
     .date-badge .day{font-size:22px;font-weight:700}
 
-
-    /* Hero video section */
+/* Hero video section */
 .hero-video {
   position: relative;
   width: 100%;
-  height: 100vh; /* tampil penuh 1 layar */
+  height: 100vh; /* 1 layar penuh */
   overflow: hidden;
   border-radius: 18px;
   margin-bottom: 24px;
@@ -69,7 +68,7 @@
 .hero-video video {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* biar isi layar penuh tanpa kotak hitam */
+  object-fit: cover; /* isi layar penuh, crop rapi */
   display: block;
   border-radius: 18px;
 }
@@ -201,7 +200,7 @@
 
     <!-- === Video Wedding Section === -->
 <div class="hero-video">
-  <video autoplay muted loop playsinline preload="auto" poster="poto1.jpg">
+  <video autoplay muted loop playsinline preload="auto">
     <source src="video.mp4" type="video/mp4">
     Browser Anda tidak mendukung tag video.
   </video>
@@ -336,6 +335,7 @@
   </script>
 </body>
 </html>
+
 
 
 
