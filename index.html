@@ -22,7 +22,7 @@
     .container{max-width:var(--max-width);margin:32px auto;padding:20px}
 
     /* Hero */
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 30px rgba(20,20,20,0.06)}
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 30px rgba(20,20,20,0.06);min-height: 100vh; }
     .hero-left{padding:44px}
     .names{font-family:'Playfair Display',serif;font-size:34px;margin:4px 0}
     .subtitle{color:var(--muted);margin-bottom:18px}
@@ -32,7 +32,8 @@
     .btn:hover{opacity:.85}
     .btn-outline{background:transparent;border:1px solid rgba(0,0,0,0.1);color:#333}
 
-    .hero-right{position:relative;height:420px;background:url('poto1.jpg') center/cover no-repeat}
+    .hero-right{position:relative;height:420px;background:url('poto1.jpg') center/cover no-repeat;min-height: 100vh; /* biar tinggi sama dengan hero */
+  position: relative;}
     .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.0),rgba(0,0,0,0.25))}
 
     /* Media strip */
@@ -297,6 +298,7 @@
   </script>
 </body>
 </html>
+
 
 
 
