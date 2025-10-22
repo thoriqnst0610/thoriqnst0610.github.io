@@ -322,8 +322,14 @@
 
     // === Carousel Gallery ===
     const gallery = document.getElementById('gallery');
-    const prevBtn = document.querySelector('.gallery-btn.prev');
-    const nextBtn = document.querySelector('.gallery-btn.next');
+    if (prevBtn && nextBtn && gallery) {
+  prevBtn.onclick = ()=>showSlide(index-1);
+  nextBtn.onclick = ()=>showSlide(index+1);
+  setInterval(()=>showSlide(index+1),4000); // auto slide
+}
+
+    // const prevBtn = document.querySelector('.gallery-btn.prev');
+    // const nextBtn = document.querySelector('.gallery-btn.next');
     let index = 0;
 
     function showSlide(i){
@@ -361,6 +367,7 @@ musicBtn.addEventListener('click', () => {
   </script>
 </body>
 </html>
+
 
 
 
