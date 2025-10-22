@@ -39,7 +39,11 @@
     .media-strip{display:flex;gap:12px;padding:18px;background:transparent;margin-top:18px;overflow-x:auto;scroll-snap-type:x mandatory}
     .media-strip::-webkit-scrollbar{display:none}
     .media-card{flex:0 0 260px;background:var(--card);border-radius:14px;padding:8px;display:flex;flex-direction:column;align-items:stretch;scroll-snap-align:start;box-shadow:0 3px 10px rgba(0,0,0,0.05)}
-    .media-card img, .media-card video, .media-card iframe{width:100%;height:160px;object-fit:cover;border-radius:10px}
+    .media-card img, .media-card video, .media-card iframe{width:100%;
+  height:160px;
+  object-fit:contain; /* tampil utuh tanpa terpotong */
+  border-radius:10px;
+  background-color:#000; /* agar area kosong jadi hitam elegan */}
     .media-card .meta{padding:10px 6px;text-align:center}
 
     /* Details and map/pdf */
@@ -51,21 +55,20 @@
 
     /* Gallery Carousel */
     .gallery-wrapper{
-        display:flex;
-  justify-content:center;
-  align-items:center;
-  height:auto;
+      position:relative;
+      overflow:hidden;
+      margin-top:12px;
+      border-radius:12px;
     }
     .gallery{
       display:flex;
       transition:transform .5s ease;
     }
-     width:auto;
-  height:100%;
-  max-height:500px; /* batas tinggi maksimal agar tidak terlalu panjang */
-  object-fit:contain; /* tampil utuh tanpa terpotong */
-  margin:auto;
-  border-radius:12px;
+    .gallery img{
+      width:100%;
+  height:280px;
+  object-fit:contain; /* tampil utuh tanpa crop */
+  background-color:#000; /* latar belakang hitam untuk rasio berbeda */
   flex-shrink:0;
     }
     .gallery-btn{
@@ -148,25 +151,20 @@
     </div>
 
     <div class="media-strip">
-  <div class="media-card">
-    <video controls playsinline preload="metadata" poster="thumbnail.jpg" style="aspect-ratio:9/16;object-fit:cover;border-radius:10px;width:100%;height:auto;">
-      <source src="video.mp4" type="video/mp4">
-      Browser Anda tidak mendukung tag video.
-    </video>
-    <div class="meta">Video Prewedding</div>
-  </div>
-</div>
-
+      <div class="media-card">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop" alt="Foto pasangan">
+        <div class="meta">Foto Prewedding</div>
+      </div>
 
       <div class="media-card">
-        <video controls playsinline preload="metadata" poster="video.mp4">
-          <source src="video.mp4" type="video/mp4">
+        <video controls playsinline preload="metadata" poster="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop">
+          <source src="sample-video.mp4" type="video/mp4">
         </video>
         <div class="meta">Video Undangan</div>
       </div>
 
       <div class="media-card">
-        <img src="poto2.jpg" alt="PDF Undangan">
+        <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=800&auto=format&fit=crop" alt="PDF Undangan">
         <div class="meta"><button class="btn btn-outline" id="open-pdf-2">Buka PDF</button></div>
       </div>
     </div>
@@ -178,9 +176,9 @@
           <div class="gallery-wrapper">
             <button class="gallery-btn prev">❮</button>
             <div class="gallery" id="gallery">
-              <img src="poto1.jpg" alt="galeri-1">
-              <img src="poto2.jpg" alt="galeri-2">
-              <img src="poto1.jpg" alt="galeri-3">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop" alt="galeri-1">
+              <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?q=80&w=800&auto=format&fit=crop" alt="galeri-2">
+              <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800&auto=format&fit=crop" alt="galeri-3">
             </div>
             <button class="gallery-btn next">❯</button>
           </div>
@@ -255,7 +253,7 @@
     const rsvpForm = document.getElementById('rsvp-form');
     const rsvpMsg = document.getElementById('rsvp-msg');
 
-    const PDF_URL = 'undangan.pdf';
+    const PDF_URL = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
 
     function openModal(title, bodyHtml){
       modalTitle.textContent = title;
@@ -299,8 +297,5 @@
   </script>
 </body>
 </html>
-
-
-
 
 
