@@ -1,241 +1,271 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portofolio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Undangan Pernikahan — Nama & Nama</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent:#BFA16A; /* soft gold */
+      --muted:#6b6b6b;
+      --bg:#f8f6f3;
+      --card:#ffffff;
+      --radius:18px;
+      --max-width:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{background:linear-gradient(180deg,#fbfaf8,var(--bg));color:#222}
+
+    .container{max-width:var(--max-width);margin:32px auto;padding:20px}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 30px rgba(20,20,20,0.06)}
+    .hero-left{padding:44px}
+    .names{font-family:'Playfair Display',serif;font-size:34px;margin:4px 0}
+    .subtitle{color:var(--muted);margin-bottom:18px}
+    .invite-text{font-size:15px;line-height:1.6;color:#333}
+    .cta-row{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+    .btn{background:var(--accent);color:#fff;padding:12px 18px;border-radius:12px;border:0;cursor:pointer;font-weight:600}
+    .btn-outline{background:transparent;border:1px solid rgba(0,0,0,0.06);color:#333}
+
+    .hero-right{position:relative;height:420px;background:url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.0),rgba(0,0,0,0.15))}
+
+    /* Media strip */
+    .media-strip{display:flex;gap:12px;padding:18px;background:transparent;margin-top:18px}
+    .media-card{flex:1;background:var(--card);border-radius:14px;padding:8px;display:flex;flex-direction:column;align-items:stretch;min-width:160px}
+    .media-card img, .media-card video, .media-card iframe{width:100%;height:160px;object-fit:cover;border-radius:10px}
+    .media-card .meta{padding:10px 6px;text-align:center}
+
+    /* Details and map/pdf */
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:22px}
+    .card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 6px 18px rgba(18,18,18,0.03)}
+    .schedule{display:flex;gap:12px;align-items:center}
+    .date-badge{background:linear-gradient(180deg,#fff, #f7f3ea);border-radius:12px;padding:14px 12px;text-align:center;min-width:110px}
+    .date-badge .day{font-size:22px;font-weight:700}
+
+    /* Gallery */
+    .gallery{display:flex;gap:8px;overflow:hidden}
+    .gallery img{flex:1 0 0;height:110px;object-fit:cover;border-radius:10px}
+
+    /* Footer */
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;padding:20px;z-index:80;display:none}
+    .modal.open{display:flex}
+    .modal-content{background:var(--card);width:min(920px,96%);height:min(80vh,720px);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #eee}
+    .modal-body{flex:1;overflow:auto}
+    .close-btn{background:transparent;border:0;font-size:18px;cursor:pointer}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;}
+      .hero-right{height:300px}
+      .grid{grid-template-columns:1fr}
+    }
+    @media (max-width:520px){
+      .hero-left{padding:20px}
+      .names{font-size:26px}
+      .media-card img, .media-card video, .media-card iframe{height:120px}
+    }
+
+    /* small utilities */
+    .muted{color:var(--muted)}
+    a.link{color:var(--accent);text-decoration:none;font-weight:600}
+  </style>
 </head>
-<body id="home">
-    <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">Thoriq</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#projects">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
+<body>
+  <div class="container">
+
+    <div class="hero" role="region" aria-label="Undangan Pernikahan">
+      <div class="hero-left">
+        <div class="subtitle muted">Dengan memohon rahmat dan ridho Allah SWT</div>
+        <h1 class="names">NAMA PANUT &amp; NAMA PASANGAN</h1>
+        <div class="invite-text">Kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami.</div>
+
+        <div class="cta-row">
+          <button class="btn" id="open-rsvp">Konfirmasi Kehadiran</button>
+          <button class="btn btn-outline" id="open-pdf">Lihat Undangan (PDF)</button>
+          <a class="btn btn-outline" href="#lokasi" role="button">Lihat Lokasi</a>
         </div>
-    </nav>
-    <!-- akhir navbar -->
 
-    <!-- jumbotron -->
-    <section class="jumbotron text-center">
-        <img src="asliThoriq.jpeg" alt="thoriq" width="280" class="rounded-circle img-thumbnail">
-        <h1 class="display-4">Thoriq</h1>
-        <p class="lead">Web Developer</p>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="#ffff" fill-opacity="1"
-                d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-            </path>
-        </svg>
-    </section>
-    <!-- akhir jumbotron -->
-
-    <!-- about -->
-    <section id="about">
-        <div class="container">
-            <div class="row text-center mb-3">
-                <div class="col">
-                    <h4>About Me</h4>
-                </div>
+        <div style="margin-top:20px;">
+          <div class="muted">Acara:</div>
+          <div class="schedule" style="margin-top:8px">
+            <div class="date-badge">
+              <div class="day">12</div>
+              <div class="muted">Okt 2026</div>
             </div>
-            <div class="row justify-content-center fs-5 text-center">
-                <div class="col-md-4 mt-2">
-                    <p class="fs-5">
-                        Halo! Saya <strong> THORIQ</strong>, lulusan <strong>S1 Informatika</strong> dengan keahlian di bidang pengembangan web yang bersemangat dalam
-                        menciptakan website yang fungsional dan menarik secara visual. Dengan keahlian saya di bidang
-                        teknologi web, saya berkomitmen untuk memberikan solusi yang ramah pengguna dan responsif, baik
-                        untuk klien maupun proyek pribadi.
-                    </p>
-                </div>
-                <div class="col-md-4 mt-2">
-                    <p class="fs-5">Dengan keahlian saya di bidang
-                        teknologi web, saya berkomitmen untuk memberikan solusi yang ramah pengguna dan responsif, baik
-                        untuk klien maupun proyek pribadi dengan <strong>Skill Html, Bootstrap, Javascript(Jquery), Php, Codeignitier 4, Database Mysql
-                            serta Cms Wordpress</strong>.
-                        Saya selalu antusias untuk belajar hal baru dan berkolaborasi dalam proyek yang menarik. Jika
-                        Anda membutuhkan pengembang yang berdedikasi, jangan ragu untuk menghubungi saya!
-                    </p>
-                </div>
+            <div>
+              <div style="font-weight:600">Akad &amp; Resepsi</div>
+              <div class="muted" style="font-size:14px;margin-top:6px">Sabtu, 12 Oktober 2026<br>08.00 - selesai</div>
             </div>
+          </div>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="#e2edff" fill-opacity="1"
-                d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-            </path>
-        </svg>
-    </section>
-    <!-- Akhir About -->
 
-    <!-- Projects -->
-    <section id="projects">
-        <div class="container">
-            <div class="row text-center mb-3">
-                <div class="col">
-                    <h2>My Projects</h2>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                 <div class="col-md-4">
-                    <div class="card">
-                        <img src="tokoOnlieasli.PNG" class="card-img-top" alt="perpustakaan">
-                        <div class="card-body">
-                            <p class="card-text">Aplikasi Toko Online Codeignitier 4</p>
-                            <a class="btn btn-primary" href="https://youtu.be/3uSvhyS0B8I?si=xumvvIA5cvmpxHN4">Lihat
-                                Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="perpustakaan.PNG" class="card-img-top" alt="perpustakaan">
-                        <div class="card-body">
-                            <p class="card-text">membuat website perpustakaan dengan php(mvc) mysql serta template
-                                kaiadmin sebagai frontend</p>
-                            <a class="btn btn-primary" href="https://youtu.be/tMAamk086V0?si=inFI2JIOsJ7zAbNB">Lihat
-                                Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mt-2">
-                    <div class="card">
-                        <img src="londashboard.PNG" class="card-img-top" alt="laundry">
-                        <div class="card-body">
-                            <p class="card-text">membuat website laundry dengan html, bootstrap , php(mvc) dan mysql</p>
-                            <a class="btn btn-primary" href="https://youtu.be/B7-aEHy9dhQ?si=HNuyoet-wKrKV4xc">Lihat
-                                Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mt-2">
-                    <div class="card">
-                        <img src="tokoOnline.PNG" class="card-img-top" alt="tokoOnline">
-                        <div class="card-body">
-                            <p class="card-text">membuat website Toko Online Menggunakan Wordpress dengan menggunakan
-                                Plugin woocommerce pembayaran via Whatsapp</p>
-                            <a class="btn btn-primary" href="https://youtu.be/uUUI2s4hFTc?si=wrYm8w6fuddMHOzT">Lihat
-                                Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mt-2">
-                    <div class="card">
-                        <img src="landingPage.PNG" class="card-img-top" alt="landingPage">
-                        <div class="card-body">
-                            <p class="card-text">membuat website Landing Page Kerupuk Menggunakan Wordpress</p>
-                            <a class="btn btn-primary" href="https://youtu.be/2jycynphEcI?si=Vrd4U3wd3leiwZhR">Lihat
-                                Demo</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mt-2">
-                    <div class="card">
-                        <img src="company.PNG" class="card-img-top" alt="company">
-                        <div class="card-body">
-                            <p class="card-text">membuat website Company Profil Perusahaan Menggunakan Wordpress</p>
-                            <a class="btn btn-primary" href="https://youtu.be/J0cRZcV7HO8?si=P0t1JgikJHURfWAR">Lihat
-                                Demo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="hero-right" aria-hidden="true">
+        <div class="hero-overlay"></div>
+      </div>
+    </div>
+
+    <div class="media-strip">
+      <div class="media-card" style="flex:1">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop" alt="Foto pasangan">
+        <div class="meta">Foto Prewedding</div>
+      </div>
+
+      <div class="media-card" style="flex:1">
+        <!-- Video: Replace src with your mp4 or YouTube embed -->
+        <video controls playsinline preload="metadata" poster="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop">
+          <source src="sample-video.mp4" type="video/mp4">
+          Browser Anda tidak mendukung video tag.
+        </video>
+        <div class="meta">Video Undangan (klik untuk putar)</div>
+      </div>
+
+      <div class="media-card" style="flex:1">
+        <!-- PDF thumbnail and link -->
+        <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=800&auto=format&fit=crop" alt="PDF Undangan">
+        <div class="meta"><button class="btn btn-outline" id="open-pdf-2">Buka PDF</button></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h3>Galeri</h3>
+          <div class="gallery" id="gallery">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop" alt="galeri-1">
+            <img src="https://images.unsplash.com/photo-1533777324565-a040eb52fac2?q=80&w=600&auto=format&fit=crop" alt="galeri-2">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop" alt="galeri-3">
+          </div>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="#ffff" fill-opacity="1"
-                d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,250.7C1248,256,1344,288,1392,304L1440,320L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-            </path>
-        </svg>
-    </section>
-    <!-- AKhir Projects -->
 
-    <!-- jkontak -->
-    <section id="contact">
-        <div class="container">
-            <div class="row text-center mb-3">
-                <div class="col">
-                    <h4>Contact Me</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 mb-2">
-                    <div class="card text-white text-center">
-                        <div class="card-header bg-danger display-4 pt-4 pb-4">
-                            <i class="fa-brands fa-instagram"></i>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title text-danger">INSTAGRAM</h5>
-                            <a href="https://www.instagram.com/thoriq0610/" class="btn btn-danger">Follow</a>
-                        </div>
-                    </div>
-                </div>
-                   <div class="col-md-4 mb-2">
-                    <div class="card text-white text-center">
-                        <div class="card-header bg-primary display-4 pt-4 pb-4">
-                            <i class="fa-brands fa-facebook"></i>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title text-primary">FACEBOOK</h5>
-                            <a href="https://web.facebook.com/thoriq.thoriq.1232/" class="btn btn-primary">LIKE</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-2">
-                    <div class="card text-white text-center">
-                        <div class="card-header bg-success display-4 pt-4 pb-4">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title text-success">Whatsapp</h5>
-                            <a href="https://wa.me/6285261762764?text=Halo%20bg" target="_blank" class="btn btn-success">Chat</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
+        <div class="card" style="margin-top:12px">
+          <h3 id="lokasi">Lokasi</h3>
+          <p class="muted">Alamat lengkap acara. Ganti dengan alamat Anda.</p>
+          <!-- Simple embedded map (replace with real embed) -->
+          <div style="border-radius:10px;overflow:hidden;margin-top:10px">
+            <iframe src="https://www.google.com/maps?q=Monas,Jakarta&output=embed" style="border:0;width:100%;height:260px"></iframe>
+          </div>
         </div>
-        </div>
-        <svg style="margin-bottom: -5px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="#0d6efd" fill-opacity="1"
-                d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,128C672,107,768,117,864,138.7C960,160,1056,192,1152,186.7C1248,181,1344,139,1392,117.3L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z">
-            </path>
-        </svg>
-    </section>
-    <!-- akhir kontak -->
+      </div>
 
-    <!-- footer -->
-    <footer class="bg-primary text-white text-center pb-4">
-        <p>Created With Love By <a href="" class="text-white fw-bold text-decoration-none">Thoriq Nst</a></p>
+      <div>
+        <div class="card">
+          <h3>Keterangan undangan (PDF)</h3>
+          <p class="muted">Klik tombol untuk membuka atau mengunduh file undangan resmi dalam format PDF.</p>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+            <button class="btn" id="download-pdf">Unduh PDF</button>
+            <button class="btn btn-outline" id="preview-pdf">Pratinjau PDF</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px;">
+          <h3>Konfirmasi &amp; Doa</h3>
+          <p class="muted">Silakan konfirmasi kehadiran Anda via form singkat ini.</p>
+          <form id="rsvp-form" style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+            <input name="name" placeholder="Nama lengkap" required style="padding:10px;border-radius:8px;border:1px solid #eee">
+            <input name="phone" placeholder="No. HP (opsional)" style="padding:10px;border-radius:8px;border:1px solid #eee">
+            <select name="attend" required style="padding:10px;border-radius:8px;border:1px solid #eee">
+              <option value="">Pilih kehadiran</option>
+              <option value="hadir">Hadir</option>
+              <option value="tidak">Tidak Hadir</option>
+            </select>
+            <button class="btn" type="submit">Kirim</button>
+          </form>
+          <div id="rsvp-msg" style="margin-top:8px;color:green;display:none">Terima kasih! Konfirmasi Anda telah diterima.</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div>Ditunggu kehadiran & doa restu dari Anda</div>
+      <div style="margin-top:8px">Jika butuh bantuan hubungi: <a class="link" href="tel:+628123456789">+62 852-6176-2764</a></div>
     </footer>
-    <!-- akhir Footer -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-        crossorigin="anonymous"></script>
+  </div>
+
+  <!-- Modal for PDF / RSVP preview -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div id="modal-title">Preview</div>
+        <button class="close-btn" id="close-modal">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- PDF viewer will be injected here -->
+        <div style="padding:18px;text-align:center;color:var(--muted)">Memuat...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Simple interactivity ---
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modal-body');
+    const modalTitle = document.getElementById('modal-title');
+    const openPdf = document.getElementById('open-pdf');
+    const openPdf2 = document.getElementById('open-pdf-2');
+    const previewPdf = document.getElementById('preview-pdf');
+    const downloadPdf = document.getElementById('download-pdf');
+    const closeModal = document.getElementById('close-modal');
+    const openRsvp = document.getElementById('open-rsvp');
+    const rsvpForm = document.getElementById('rsvp-form');
+    const rsvpMsg = document.getElementById('rsvp-msg');
+
+    // Replace 'undangan.pdf' with your actual PDF path.
+    const PDF_URL = 'undangan.pdf';
+
+    function openModal(title, bodyHtml){
+      modalTitle.textContent = title;
+      modalBody.innerHTML = bodyHtml;
+      modal.classList.add('open');
+    }
+    function closeModalFn(){ modal.classList.remove('open'); modalBody.innerHTML = '<div style="padding:18px;text-align:center;color:var(--muted)">Memuat...</div>' }
+
+    openPdf.addEventListener('click',()=>{
+      openModal('Undangan (PDF)',`<iframe src="${PDF_URL}#view=FitH" style="width:100%;height:100%;border:0"></iframe>`);
+    });
+    openPdf2.addEventListener('click',()=>{ openPdf.click(); });
+    previewPdf.addEventListener('click',()=>{ openPdf.click(); });
+    downloadPdf.addEventListener('click',()=>{ window.open(PDF_URL, '_blank'); });
+
+    closeModal.addEventListener('click', closeModalFn);
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModalFn(); });
+
+    // RSVP -- placeholder front-end handler. Replace with AJAX to server if needed.
+    rsvpForm.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      // collect data
+      const data = new FormData(rsvpForm);
+      // TODO: send to server via fetch
+      rsvpForm.reset();
+      rsvpMsg.style.display='block';
+      setTimeout(()=>rsvpMsg.style.display='none',4000);
+    });
+
+    // Optional: autoplay background music (allow user to toggle in mobile browsers)
+
+    // Small enhancement: scroll reveal simple effect
+    document.querySelectorAll('.card, .media-card').forEach((el,i)=>{
+      el.style.opacity=0;el.style.transform='translateY(10px)';
+    });
+    window.addEventListener('load',()=>{
+      document.querySelectorAll('.card, .media-card').forEach((el,i)=>{
+        setTimeout(()=>{ el.style.transition='all 620ms ease'; el.style.opacity=1; el.style.transform='translateY(0)'; }, 120*i);
+      })
+    });
+
+    // Accessibility: allow Escape to close modal
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModalFn(); });
+
+  </script>
 </body>
-
 </html>
