@@ -17,7 +17,7 @@
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    body{background:linear-gradient(180deg,#fbfaf8,var(--bg));color:#222}
+    body{background:linear-gradient(180deg,#fbfaf8,var(--bg));color:#222;overflow-x:hidden;}
 
     .container{max-width:var(--max-width);margin:32px auto;padding:20px}
 
@@ -28,15 +28,17 @@
     .subtitle{color:var(--muted);margin-bottom:18px}
     .invite-text{font-size:15px;line-height:1.6;color:#333}
     .cta-row{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
-    .btn{background:var(--accent);color:#fff;padding:12px 18px;border-radius:12px;border:0;cursor:pointer;font-weight:600}
-    .btn-outline{background:transparent;border:1px solid rgba(0,0,0,0.06);color:#333}
+    .btn{background:var(--accent);color:#fff;padding:12px 18px;border-radius:12px;border:0;cursor:pointer;font-weight:600;transition:all .3s ease}
+    .btn:hover{opacity:.85}
+    .btn-outline{background:transparent;border:1px solid rgba(0,0,0,0.1);color:#333}
 
     .hero-right{position:relative;height:420px;background:url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.0),rgba(0,0,0,0.15))}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.0),rgba(0,0,0,0.25))}
 
     /* Media strip */
-    .media-strip{display:flex;gap:12px;padding:18px;background:transparent;margin-top:18px}
-    .media-card{flex:1;background:var(--card);border-radius:14px;padding:8px;display:flex;flex-direction:column;align-items:stretch;min-width:160px}
+    .media-strip{display:flex;gap:12px;padding:18px;background:transparent;margin-top:18px;overflow-x:auto;scroll-snap-type:x mandatory}
+    .media-strip::-webkit-scrollbar{display:none}
+    .media-card{flex:0 0 260px;background:var(--card);border-radius:14px;padding:8px;display:flex;flex-direction:column;align-items:stretch;scroll-snap-align:start;box-shadow:0 3px 10px rgba(0,0,0,0.05)}
     .media-card img, .media-card video, .media-card iframe{width:100%;height:160px;object-fit:cover;border-radius:10px}
     .media-card .meta{padding:10px 6px;text-align:center}
 
@@ -47,9 +49,38 @@
     .date-badge{background:linear-gradient(180deg,#fff, #f7f3ea);border-radius:12px;padding:14px 12px;text-align:center;min-width:110px}
     .date-badge .day{font-size:22px;font-weight:700}
 
-    /* Gallery */
-    .gallery{display:flex;gap:8px;overflow:hidden}
-    .gallery img{flex:1 0 0;height:110px;object-fit:cover;border-radius:10px}
+    /* Gallery Carousel */
+    .gallery-wrapper{
+      position:relative;
+      overflow:hidden;
+      margin-top:12px;
+      border-radius:12px;
+    }
+    .gallery{
+      display:flex;
+      transition:transform .5s ease;
+    }
+    .gallery img{
+      width:100%;
+      height:280px;
+      object-fit:cover;
+      flex-shrink:0;
+    }
+    .gallery-btn{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      background:rgba(0,0,0,0.5);
+      color:#fff;
+      border:none;
+      padding:10px 14px;
+      cursor:pointer;
+      border-radius:50%;
+      z-index:2;
+    }
+    .gallery-btn.prev{left:10px;}
+    .gallery-btn.next{right:10px;}
+    .gallery-btn:hover{background:rgba(0,0,0,0.7)}
 
     /* Footer */
     footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
@@ -71,7 +102,8 @@
     @media (max-width:520px){
       .hero-left{padding:20px}
       .names{font-size:26px}
-      .media-card img, .media-card video, .media-card iframe{height:120px}
+      .gallery img{height:200px}
+      .media-card{flex:0 0 200px}
     }
 
     /* small utilities */
@@ -82,7 +114,7 @@
 <body>
   <div class="container">
 
-    <div class="hero" role="region" aria-label="Undangan Pernikahan">
+    <div class="hero">
       <div class="hero-left">
         <div class="subtitle muted">Dengan memohon rahmat dan ridho Allah SWT</div>
         <h1 class="names">Thoriq &amp; NAMA PASANGAN</h1>
@@ -91,7 +123,7 @@
         <div class="cta-row">
           <button class="btn" id="open-rsvp">Konfirmasi Kehadiran</button>
           <button class="btn btn-outline" id="open-pdf">Lihat Undangan (PDF)</button>
-          <a class="btn btn-outline" href="#lokasi" role="button">Lihat Lokasi</a>
+          <a class="btn btn-outline" href="#lokasi">Lihat Lokasi</a>
         </div>
 
         <div style="margin-top:20px;">
@@ -109,28 +141,23 @@
         </div>
 
       </div>
-      <div class="hero-right" aria-hidden="true">
-        <div class="hero-overlay"></div>
-      </div>
+      <div class="hero-right"><div class="hero-overlay"></div></div>
     </div>
 
     <div class="media-strip">
-      <div class="media-card" style="flex:1">
+      <div class="media-card">
         <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop" alt="Foto pasangan">
         <div class="meta">Foto Prewedding</div>
       </div>
 
-      <div class="media-card" style="flex:1">
-        <!-- Video: Replace src with your mp4 or YouTube embed -->
+      <div class="media-card">
         <video controls playsinline preload="metadata" poster="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop">
           <source src="sample-video.mp4" type="video/mp4">
-          Browser Anda tidak mendukung video tag.
         </video>
-        <div class="meta">Video Undangan (klik untuk putar)</div>
+        <div class="meta">Video Undangan</div>
       </div>
 
-      <div class="media-card" style="flex:1">
-        <!-- PDF thumbnail and link -->
+      <div class="media-card">
         <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=800&auto=format&fit=crop" alt="PDF Undangan">
         <div class="meta"><button class="btn btn-outline" id="open-pdf-2">Buka PDF</button></div>
       </div>
@@ -140,17 +167,20 @@
       <div>
         <div class="card">
           <h3>Galeri</h3>
-          <div class="gallery" id="gallery">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop" alt="galeri-1">
-            <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?q=80&w=600&auto=format&fit=crop" alt="galeri-2">
-            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop" alt="galeri-3">
+          <div class="gallery-wrapper">
+            <button class="gallery-btn prev">❮</button>
+            <div class="gallery" id="gallery">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop" alt="galeri-1">
+              <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?q=80&w=800&auto=format&fit=crop" alt="galeri-2">
+              <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800&auto=format&fit=crop" alt="galeri-3">
+            </div>
+            <button class="gallery-btn next">❯</button>
           </div>
         </div>
 
         <div class="card" style="margin-top:12px">
           <h3 id="lokasi">Lokasi</h3>
           <p class="muted">Alamat lengkap acara. Ganti dengan alamat Anda.</p>
-          <!-- Simple embedded map (replace with real embed) -->
           <div style="border-radius:10px;overflow:hidden;margin-top:10px">
             <iframe src="https://www.google.com/maps?q=Monas,Jakarta&output=embed" style="border:0;width:100%;height:260px"></iframe>
           </div>
@@ -160,7 +190,7 @@
       <div>
         <div class="card">
           <h3>Keterangan undangan (PDF)</h3>
-          <p class="muted">Klik tombol untuk membuka atau mengunduh file undangan resmi dalam format PDF.</p>
+          <p class="muted">Klik tombol untuk membuka file undangan resmi dalam format PDF.</p>
           <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
             <button class="btn" id="download-pdf">Unduh PDF</button>
             <button class="btn btn-outline" id="preview-pdf">Pratinjau PDF</button>
@@ -187,12 +217,11 @@
 
     <footer>
       <div>Ditunggu kehadiran & doa restu dari Anda</div>
-      <div style="margin-top:8px">Jika butuh bantuan hubungi: <a class="link" href="https://wa.me/6285261762764">+62 852-6176-2764</a></div>
+      <div style="margin-top:8px">Hubungi kami: <a class="link" href="https://api.whatsapp.com/send?phone=6285261762764">+62 852-6176-2764</a></div>
     </footer>
 
   </div>
 
-  <!-- Modal for PDF / RSVP preview -->
   <div class="modal" id="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -200,14 +229,12 @@
         <button class="close-btn" id="close-modal">✕</button>
       </div>
       <div class="modal-body" id="modal-body">
-        <!-- PDF viewer will be injected here -->
         <div style="padding:18px;text-align:center;color:var(--muted)">Memuat...</div>
       </div>
     </div>
   </div>
 
   <script>
-    // --- Simple interactivity ---
     const modal = document.getElementById('modal');
     const modalBody = document.getElementById('modal-body');
     const modalTitle = document.getElementById('modal-title');
@@ -219,9 +246,7 @@
     const openRsvp = document.getElementById('open-rsvp');
     const rsvpForm = document.getElementById('rsvp-form');
     const rsvpMsg = document.getElementById('rsvp-msg');
- 
 
-    // Replace 'undangan.pdf' with your actual PDF path.
     const PDF_URL = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
 
     function openModal(title, bodyHtml){
@@ -229,48 +254,40 @@
       modalBody.innerHTML = bodyHtml;
       modal.classList.add('open');
     }
-    function closeModalFn(){ modal.classList.remove('open'); modalBody.innerHTML = '<div style="padding:18px;text-align:center;color:var(--muted)">Memuat...</div>' }
+    function closeModalFn(){ modal.classList.remove('open'); modalBody.innerHTML='<div style="padding:18px;text-align:center;color:var(--muted)">Memuat...</div>'; }
 
-    openPdf.addEventListener('click',()=>{
-      openModal('Undangan (PDF)',`<iframe src="${PDF_URL}#view=FitH" style="width:100%;height:100%;border:0"></iframe>`);
-    });
-    openPdf2.addEventListener('click',()=>{ openPdf.click(); });
-    previewPdf.addEventListener('click',()=>{ openPdf.click(); });
-    downloadPdf.addEventListener('click',()=>{ window.open(PDF_URL, '_blank'); });
+    openPdf.addEventListener('click',()=>openModal('Undangan (PDF)',`<iframe src="${PDF_URL}" style="width:100%;height:100%;border:0"></iframe>`));
+    openPdf2.addEventListener('click',()=>openPdf.click());
+    previewPdf.addEventListener('click',()=>openPdf.click());
+    downloadPdf.addEventListener('click',()=>window.open(PDF_URL,'_blank'));
+    closeModal.addEventListener('click',closeModalFn);
+    modal.addEventListener('click',(e)=>{if(e.target===modal)closeModalFn();});
 
-    closeModal.addEventListener('click', closeModalFn);
-    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModalFn(); });
-
-    // RSVP -- placeholder front-end handler. Replace with AJAX to server if needed.
     rsvpForm.addEventListener('submit',(e)=>{
       e.preventDefault();
-      // collect data
-      const data = new FormData(rsvpForm);
-      // TODO: send to server via fetch
       rsvpForm.reset();
       rsvpMsg.style.display='block';
       setTimeout(()=>rsvpMsg.style.display='none',4000);
     });
 
-    // Optional: autoplay background music (allow user to toggle in mobile browsers)
+    // === Carousel Gallery ===
+    const gallery = document.getElementById('gallery');
+    const prevBtn = document.querySelector('.gallery-btn.prev');
+    const nextBtn = document.querySelector('.gallery-btn.next');
+    let index = 0;
 
-    // Small enhancement: scroll reveal simple effect
-    document.querySelectorAll('.card, .media-card').forEach((el,i)=>{
-      el.style.opacity=0;el.style.transform='translateY(10px)';
-    });
-    window.addEventListener('load',()=>{
-      document.querySelectorAll('.card, .media-card').forEach((el,i)=>{
-        setTimeout(()=>{ el.style.transition='all 620ms ease'; el.style.opacity=1; el.style.transform='translateY(0)'; }, 120*i);
-      })
-    });
+    function showSlide(i){
+      const total = gallery.children.length;
+      if(i<0) index=total-1;
+      else if(i>=total) index=0;
+      else index=i;
+      gallery.style.transform = `translateX(-${index*100}%)`;
+    }
+    prevBtn.onclick = ()=>showSlide(index-1);
+    nextBtn.onclick = ()=>showSlide(index+1);
+    setInterval(()=>showSlide(index+1),4000); // auto slide
 
-    // Accessibility: allow Escape to close modal
-    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModalFn(); });
-
+    document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closeModalFn();});
   </script>
 </body>
 </html>
-
-
-
-
