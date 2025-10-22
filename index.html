@@ -138,6 +138,11 @@
   </style>
 </head>
 <body>
+  <audio id="bg-music" loop>
+  <source src="music.mp3" type="audio/mp3">
+  Browser Anda tidak mendukung pemutar audio.
+</audio>
+
   <div class="container">
 
     <div class="hero">
@@ -147,7 +152,7 @@
         <div class="invite-text">Kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami.</div>
 
         <div class="cta-row">
-          <button class="btn" id="open-rsvp">Konfirmasi Kehadiran</button>
+          <button class="btn" id="music-btn">Nyalakan Music</button>
           <button class="btn btn-outline" id="open-pdf">Lihat Undangan</button>
           <a class="btn btn-outline" href="#lokasi">Lihat Lokasi</a>
         </div>
@@ -333,9 +338,30 @@
     setInterval(()=>showSlide(index+1),4000); // auto slide
 
     document.addEventListener('keydown',(e)=>{if(e.key==='Escape')closeModalFn();});
+
+
+
+
+    const musicBtn = document.getElementById('music-btn');
+const bgMusic = document.getElementById('bg-music');
+let isPlaying = false;
+
+musicBtn.addEventListener('click', () => {
+  if (!isPlaying) {
+    bgMusic.play();
+    musicBtn.textContent = '🔇 Matikan Musik';
+    isPlaying = true;
+  } else {
+    bgMusic.pause();
+    musicBtn.textContent = '🔊 Nyalakan Musik';
+    isPlaying = false;
+  }
+});
+
   </script>
 </body>
 </html>
+
 
 
 
